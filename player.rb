@@ -1,4 +1,5 @@
 class Player
+  attr_reader :x, :y, :angle
   def initialize(window)
     @image = Gosu::Image.new(window, "resources/images/calle.png", false)
     @x = @y = @vel_x = @vel_y = @angle = 0.0
