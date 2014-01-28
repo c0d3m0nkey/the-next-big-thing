@@ -1,5 +1,6 @@
 require "gosu"
 require_relative "player"
+require_relative "bullet"
 
 class GameWindow < Gosu::Window
   def initialize
@@ -9,6 +10,7 @@ class GameWindow < Gosu::Window
 
     @player = Player.new(self)
     @player.warp(320, 240)
+    @bullets = []
   end
 
   def update
@@ -21,11 +23,22 @@ class GameWindow < Gosu::Window
     if button_down? Gosu::KbUp or button_down? Gosu::GpButton0 then
       @player.accelerate
     end
+
+    if button_down? Gosu::KbSpace
+      bullet = Bullet.new(self, @player.x, @player.y, @player.angle)
+      @bullets << bullet
+    end
+
+    @bullets.each do |bullet|
+      bullet.move
+      @bullets.delete(bullet) if bullet.stopped?
+    end
     @player.move
   end
 
   def draw
     @player.draw
+    @bullets.each(&:draw)
     @background_image.draw(0, 0, 0);
   end
 
