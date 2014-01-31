@@ -28,6 +28,9 @@ class GameWindow < Gosu::Window
       bullet = Bullet.new(self, @player.x, @player.y, @player.angle)
       @bullets << bullet
     end
+    if button_down? Gosu::KbEnter or button_down? Gosu::KbReturn then
+	@player.toggleSSJ(self)
+    end
 
     @bullets.each do |bullet|
       bullet.move
