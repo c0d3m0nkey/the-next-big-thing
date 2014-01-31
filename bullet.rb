@@ -8,6 +8,7 @@ class Bullet
     @vel_x = @vel_y = 30
     if @ssj then
  	@vel_x = @vel_y = 100
+        @image = Gosu::Image.new(window, "resources/images/ssjcallebullet.png", false)
     end
   end
 
