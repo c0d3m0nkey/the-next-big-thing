@@ -1,10 +1,11 @@
 class Player
-  attr_reader :x, :y, :angle
+  attr_reader :x, :y, :angle, :ssj
   def initialize(window)
     @image = Gosu::Image.new(window, "resources/images/calle.png", false)
     @x = @y = @vel_x = @vel_y = @angle = 0.0
     @score = 0
     @ssj = false
+
   end
 
   def warp(x, y)
@@ -30,6 +31,7 @@ class Player
 	if @ssj then
 	    @image = Gosu::Image.new(window, "resources/images/callessj.png", false)
 	end
+        @zzj = @ssj
   end
   
   def move

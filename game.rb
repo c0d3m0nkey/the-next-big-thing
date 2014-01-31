@@ -25,7 +25,7 @@ class GameWindow < Gosu::Window
     end
 
     if button_down? Gosu::KbSpace
-      bullet = Bullet.new(self, @player.x, @player.y, @player.angle)
+      bullet = Bullet.new(self, @player.x, @player.y, @player.angle, @player.ssj)
       @bullets << bullet
     end
     if button_down? Gosu::KbEnter or button_down? Gosu::KbReturn then

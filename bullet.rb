@@ -1,10 +1,17 @@
 class Bullet
-  def initialize(window, x, y, angle)
+  def initialize(window, x, y, angle, ssj)
     @image = Gosu::Image.new(window, "resources/images/callebullet.png", false)
     @x = x
     @y = y
+    @ssj = ssj
     @angle = angle
     @vel_x = @vel_y = 30
+
+
+    if @ssj
+      @vel_x = @vel_y = 100
+      @image = Gosu::Image.new(window, "resources/images/ssjcallebullet.png", false)
+    end
 
     Thread.new do
       sleep 0.5
@@ -17,6 +24,8 @@ class Bullet
     @y += Gosu::offset_y(@angle, @vel_y)
     @x %= 640
     @y %= 480
+    @vel_x *= 0.95
+    @vel_y *= 0.95
   end
 
   def remove?
