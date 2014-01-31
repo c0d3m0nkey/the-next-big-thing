@@ -5,6 +5,11 @@ class Bullet
     @y = y
     @angle = angle
     @vel_x = @vel_y = 30
+
+    Thread.new do
+      sleep 0.5
+      @remove = true
+    end
   end
 
   def move
@@ -12,13 +17,10 @@ class Bullet
     @y += Gosu::offset_y(@angle, @vel_y)
     @x %= 640
     @y %= 480
-
-    @vel_x *= 0.95
-    @vel_y *= 0.95
   end
 
-  def stopped?
-    @vel_x < 1.0 || @vel_y < 1.0
+  def remove?
+    @remove
   end
 
   def draw

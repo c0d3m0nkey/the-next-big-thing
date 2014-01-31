@@ -34,7 +34,7 @@ class GameWindow < Gosu::Window
 
     @bullets.each do |bullet|
       bullet.move
-      @bullets.delete(bullet) if bullet.stopped?
+      @bullets.delete(bullet) if bullet.remove?
     end
     @player.move
   end
