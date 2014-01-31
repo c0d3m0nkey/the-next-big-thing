@@ -4,6 +4,7 @@ class Player
     @image = Gosu::Image.new(window, "resources/images/calle.png", false)
     @x = @y = @vel_x = @vel_y = @angle = 0.0
     @score = 0
+    @ssj = false
   end
 
   def warp(x, y)
@@ -21,6 +22,14 @@ class Player
   def accelerate
     @vel_x += Gosu::offset_x(@angle, 0.5)
     @vel_y += Gosu::offset_y(@angle, 0.5)
+  end
+
+  def toggleSSJ(window)
+	@ssj = !@ssj 
+	@image = Gosu::Image.new(window, "resources/images/calle.png", false)
+	if @ssj then
+	    @image = Gosu::Image.new(window, "resources/images/callessj.png", false)
+	end
   end
   
   def move
