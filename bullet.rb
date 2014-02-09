@@ -12,8 +12,8 @@ class Bullet < Entity
     end
 
     Thread.new do
-      sleep 0.5
-      @remove = true
+      sleep 1.5
+      kill
     end
   end
 

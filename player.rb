@@ -1,14 +1,13 @@
 require_relative "entity"
 
 class Player < Entity
-  attr_reader :x, :y, :angle, :ssj
+  attr_reader :ssj
   def initialize(window)
     super(window, 0.0, 0.0, 0.0, @image = Gosu::Image.new(window, "resources/images/calle.png", false))
     
     @vel_x = @vel_y = 0.0
     @score = 0
     @ssj = false
-    @window = window
     @spacePressed = false
 
   end

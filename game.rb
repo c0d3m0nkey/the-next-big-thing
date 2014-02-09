@@ -1,6 +1,7 @@
 require "gosu"
 require_relative "player"
 require_relative "bullet"
+require_relative "enemy"
 
 class GameWindow < Gosu::Window
   attr_reader :entities
@@ -12,13 +13,21 @@ class GameWindow < Gosu::Window
     player = Player.new(self)
     player.warp(320, 240)
     @entities = []
+    @entities << Enemy.new(self, 100, 100, 0.0)
     @entities << player
+    
   end
 
   def update
+    cleanup
     @entities.each do |entity|
       entity.update
-      @entities.delete(entity) if entity.remove?
+    end
+  end
+
+  def cleanup
+    @entities.each do |entity|
+      @entities.delete(entity) if !entity.alive
     end
   end
 
