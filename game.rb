@@ -3,45 +3,27 @@ require_relative "player"
 require_relative "bullet"
 
 class GameWindow < Gosu::Window
+  attr_reader :entities
   def initialize
     super 640, 480, false
     self.caption = "Wordpress game lulz"
     @background_image = Gosu::Image.new(self, "resources/images/lisinge.jpg", true)
 
-    @player = Player.new(self)
-    @player.warp(320, 240)
-    @bullets = []
+    player = Player.new(self)
+    player.warp(320, 240)
+    @entities = []
+    @entities << player
   end
 
   def update
-    if button_down? Gosu::KbLeft or button_down? Gosu::GpLeft then
-      @player.turn_left
+    @entities.each do |entity|
+      entity.update
+      @entities.delete(entity) if entity.remove?
     end
-    if button_down? Gosu::KbRight or button_down? Gosu::GpRight then
-      @player.turn_right
-    end
-    if button_down? Gosu::KbUp or button_down? Gosu::GpButton0 then
-      @player.accelerate
-    end
-
-    if button_down? Gosu::KbSpace
-      bullet = Bullet.new(self, @player.x, @player.y, @player.angle, @player.ssj)
-      @bullets << bullet
-    end
-    if button_down? Gosu::KbEnter or button_down? Gosu::KbReturn then
-	@player.toggleSSJ(self)
-    end
-
-    @bullets.each do |bullet|
-      bullet.move
-      @bullets.delete(bullet) if bullet.remove?
-    end
-    @player.move
   end
 
   def draw
-    @player.draw
-    @bullets.each(&:draw)
+    @entities.each(&:draw)
     @background_image.draw(0, 0, 0);
   end
 

@@ -1,10 +1,15 @@
-class Player
+require_relative "entity"
+
+class Player < Entity
   attr_reader :x, :y, :angle, :ssj
   def initialize(window)
-    @image = Gosu::Image.new(window, "resources/images/calle.png", false)
-    @x = @y = @vel_x = @vel_y = @angle = 0.0
+    super(window, 0.0, 0.0, 0.0, @image = Gosu::Image.new(window, "resources/images/calle.png", false))
+    
+    @vel_x = @vel_y = 0.0
     @score = 0
     @ssj = false
+    @window = window
+    @spacePressed = false
 
   end
 
@@ -34,7 +39,8 @@ class Player
         @zzj = @ssj
   end
   
-  def move
+  def update
+    handle_input
     @x += @vel_x
     @y += @vel_y
     @x %= 640
@@ -42,6 +48,35 @@ class Player
     
     @vel_x *= 0.95
     @vel_y *= 0.95
+  end
+
+  def handle_input
+    if @window.button_down? Gosu::KbLeft or @window.button_down? Gosu::GpLeft then
+      turn_left
+    end
+    if @window.button_down? Gosu::KbRight or @window.button_down? Gosu::GpRight then
+      turn_right
+    end
+    if @window.button_down? Gosu::KbUp or @window.button_down? Gosu::GpButton0 then
+      accelerate
+    end
+
+    if @window.button_down? Gosu::KbSpace
+      if !@spacePressed
+        @spacePressed = true
+        bullet = Bullet.new(@window, @x, @y, @angle, @ssj)
+        @window.entities << bullet
+      end
+    end
+
+    if !@window.button_down? Gosu::KbSpace
+      @spacePressed = false
+    end
+
+    if @window.button_down? Gosu::KbEnter or @window.button_down? Gosu::KbReturn then
+      toggleSSJ(@window)
+    end
+
   end
 
   def draw

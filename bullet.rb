@@ -1,16 +1,14 @@
-class Bullet
+require_relative "entity"
+
+class Bullet < Entity
   def initialize(window, x, y, angle, ssj)
-    @image = Gosu::Image.new(window, "resources/images/callebullet.png", false)
-    @x = x
-    @y = y
     @ssj = ssj
-    @angle = angle
-    @vel_x = @vel_y = 30
-
-
-    if @ssj
+    if ssj
       @vel_x = @vel_y = 100
-      @image = Gosu::Image.new(window, "resources/images/ssjcallebullet.png", false)
+      super(window, x, y, angle, Gosu::Image.new(window, "resources/images/ssjcallebullet.png", false))
+    else
+      @vel_x = @vel_y = 30
+      super(window, x, y, angle, Gosu::Image.new(window, "resources/images/callebullet.png", false))
     end
 
     Thread.new do
@@ -19,7 +17,7 @@ class Bullet
     end
   end
 
-  def move
+  def update
     @x += Gosu::offset_x(@angle, @vel_x)
     @y += Gosu::offset_y(@angle, @vel_y)
     @x %= 640
